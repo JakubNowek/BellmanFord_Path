@@ -62,7 +62,7 @@ void GraphMatrix::printfGraph()
     {
         for(int j = 0; j < this->verticesGraph; j++)
         {
-            std::cout << "Dla wierzcholka od " << i << " " << j << " wagi wynosza: ";
+            std::cout << "Dla wierzcholka od " << i << " do " << j << " wagi wynosza: ";
             this->adjacencyMatrix[i][j].print();
         }
         std:: cout << std::endl;    
