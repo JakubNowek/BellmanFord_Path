@@ -60,38 +60,17 @@ void GraphMatrix::printfGraph()
 {
     for(int i = 0; i < this->verticesGraph; i++)
     {
+        std::cout << "Wierzcholek macierzy sasiedztwa " << i << ": ";
         for(int j = 0; j < this->verticesGraph; j++)
         {
-            std::cout << "Dla wierzcholka od " << i << " do " << j << " wagi wynosza: ";
-            this->adjacencyMatrix[i][j].print();
+            if (adjacencyMatrix[i][j].size() != 0)
+            {
+                std::cout << i << "->" << j;
+                this->adjacencyMatrix[i][j].print();
+                std::cout << "; ";
+                //std::cout.width(5);
+            }
         }
         std:: cout << std::endl;    
     }
 }
-
-
-///*funkcja eksperymentalna ktora bedzie wyswietlac wylosowany graf w takiej formie w jakiej umiemy wczytywac graf*/
-//void GraphMatrix::printfGraph()
-//{
-//    std::cout << "Dla grafu ilosc krawedzi wynosi: "<< this->edgesGraph; //x1
-//
-//    std::cout << "Dla grafu  ilosc wierzcholkow wynosi: "<< this->verticesGraph;//x1
-//
-//    std::cout << "Dla grafu  wierzcholek startowy to: " << 1 << std::endl;//x1
-//
-//
-//    for (int i = 0; i < this->verticesGraph; i++)
-//    {
-//        for (int j = 0; j < this->verticesGraph; j++)
-//        {
-//
-//            std::cout << "Dla grafu: wierzcholek poczatkowy: "<<i;
-//
-//            std::cout << " wierzcholek koncowy: "<<j;
-//
-//            std::cout << " waga wynosi: ";
-//            this->adjacencyMatrix[i][j].print();
-//        }
-//        std::cout << std::endl;
-//    }
-//}

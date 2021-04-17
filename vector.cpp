@@ -71,6 +71,9 @@ int vectorClass::getcapacity()
 void vectorClass::print() 
 { 
     for (int i = 0; i < current; i++)
-        std::cout << "("<<array[i] << ") ";
-    std::cout << std::endl;      
+    {
+        std::cout << " (" << array[i] << ")";
+    }
+
+    /*std::cout << std::endl;  */    
 } 
