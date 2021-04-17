@@ -5,7 +5,7 @@ void displayArrayFile(int distanceArray[],int preArray[], int size, int vertexSo
     std::fstream file; //zmienna do ktorej bedziemy zapisywac do pliku
     //otwieramy plik
     file.open("sciezka.txt", std::ios::out|std::ios::trunc); //było std::ios::app zamiast trunc
-    file << "Dla wierzcholka zrodlowego: " << vertexSource << std::endl;
+    file << "Dla wierzcholka startowego: " << vertexSource << std::endl;
 	for(int i = 0; i < size; i++)
     {
 		file <<"Do wierzcholka: " << i << " koszt wynosi $ " << distanceArray[i] << " " << std::endl;
