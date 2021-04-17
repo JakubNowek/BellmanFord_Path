@@ -28,8 +28,11 @@ class GraphMatrix:public Graph
         for(int i = 0; i < vertices; i++)
             this->adjacencyMatrix[i] = new vectorClass[vertices];
     }
-    GraphMatrix(){};
-    ~GraphMatrix();
+
+    GraphMatrix(){}; //konstruktor
+
+    ~GraphMatrix(); //destruktor
+
     void setAdjacencyMatrix(int vertices)
     {
         //tworzymy tablice

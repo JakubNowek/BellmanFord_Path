@@ -2,7 +2,6 @@
 
 void displayArrayFile(int distanceArray[],int preArray[], int size, int vertexSource)
 {
-    std::cout << std::endl << "displayArrayFile" << std::endl;
     std::fstream file; //zmienna do ktorej bedziemy zapisywac do pliku
     //otwieramy plik
     file.open("sciezka.txt", std::ios::out|std::ios::trunc); //było std::ios::app zamiast trunc
@@ -19,7 +18,7 @@ void displayArrayFile(int distanceArray[],int preArray[], int size, int vertexSo
 
     for (int i = 0; i < size; i++)
     {
-        file << "Dla wierzcholka " <<i << " : najktrotsza droga prowadzi przez wierzcholki: ";
+        file << "Dla wierzcholka (do wierzcholka) " <<i << " : najktrotsza droga prowadzi przez wierzcholki: ";
         // Wierzchołki ścieżki umieszczamy na stosie
         for(int x = i; x !=-1 ; x = preArray[x])
             arrayOfVertices[ptr++] = x; // w kolejności od ostatniego do pierwszego
@@ -91,13 +90,12 @@ void bellmanfordList(GraphList &graph, int vertexSource)
     //usuniecie zaalokowanych pamieci
     delete [] distanceArray;
     delete [] preArray;
-    std::cout << std::endl << "bellmanfordList" << std::endl;
+
 }
 
 //algorytm bellmana forda sluzacy do zapisu do pliku dla listy sasiedztwa
 void bellmanfordListFile(GraphList &graph, int vertexSource)
 {   
-    std::cout << std::endl << "bellmanfordListFile" << std::endl;
     // zmienna pomocnicza
     listNode* tmpNode;
     //liczba wierzcholkow
@@ -209,7 +207,7 @@ void bellmanfordMatrix(GraphMatrix &graph, int vertexSource)
     //usuniecie zaalokowanych pamieci
     delete [] distanceArray;
     delete [] preArray;  
-    std::cout << std::endl << "bellmanfordMatrix" << std::endl;
+
 }
 
 //algorytm bellmana forda zapisujacy do pliku dla macierzy sasiedztwa
@@ -269,5 +267,5 @@ void bellmanfordMatrixFile(GraphMatrix &graph, int vertexSource)
     //usuniecie zaalokowanych pamieci
     delete [] distanceArray;
     delete [] preArray;      
-    std::cout << std::endl << "bellmanfordMatrixFile" << std::endl;
+
 }

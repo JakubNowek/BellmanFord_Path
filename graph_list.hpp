@@ -38,8 +38,8 @@ class GraphList:public Graph
         for(int i = 0; i < vertices; i++)
             this->adjacencyList[i] = NULL;
     }
-    GraphList(){};
-    ~GraphList();
+    GraphList(){}; //konstruktor
+    ~GraphList(); //destruktor
 
     void setAdjacencyList(int vertices)
     {

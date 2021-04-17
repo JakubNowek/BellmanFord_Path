@@ -129,6 +129,9 @@ int main()
             << "or " << int_ms.count() << " whole milliseconds "
             << "(which is " << int_usec.count() << " whole microseconds)" << std::endl;
 
+        //wyswietnie jednego ze 100 utworzonych grafów grafu
+      // graphmatrix[0].printfGraph();
+
         delete[] graphmatrix;
 
         break;
