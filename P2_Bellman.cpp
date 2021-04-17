@@ -125,9 +125,9 @@ int main()
         nie potrzebny duration_cast */
         std::chrono::duration<long, std::micro> int_usec = int_ms;
 
-        std::cout << "algorithm took " << algorithmTime_ms.count() << " ms, "
-            << "or " << int_ms.count() << " whole milliseconds "
-            << "(which is " << int_usec.count() << " whole microseconds)" << std::endl;
+        std::cout << "Czas pracy algorytmu " << algorithmTime_ms.count() << " ms, "
+            << " / " << int_ms.count() << " pelnych milisekund "
+            << "(czyli " << int_usec.count() << " pelnych mikrosekund)" << std::endl;
 
         //wyswietnie jednego ze 100 utworzonych grafów grafu
       // graphmatrix[0].printfGraph();
