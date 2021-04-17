@@ -25,13 +25,13 @@ int main()
     cout << "1. Sto instancji grafu jako lista sasiedztwa " << endl;
     cout << "2. Sto instancji grafu jako macierz sasiedztwa: " << endl;
     cout << "3. Wczytaj graf z pliku jako lista sasiedztwa: " << endl;
-    cout << "4. Wczytaj graf z pliku jako macierz sasiedztwa: " << endl << endl;
+    cout << "4. Wczytaj graf z pliku jako macierz sasiedztwa: " << endl;
+    cout << "5. Ewakuacja!!! " << endl << endl;
     cout << "Twoj wybor to: ";
     cin >> choice_graph;
     cin.ignore(100000, '\n');
-
-    switch (choice_graph)
-    {
+        switch (choice_graph)
+        {
         case 1:
         {
             //pobieramy parametry grafu
@@ -81,7 +81,7 @@ int main()
             //cout << "algorithm took " << algorithmTime_ms.count() << " ms, "
             //    << "or " << int_ms.count() << " whole milliseconds "
             //    << "(which is " << int_usec.count() << " whole microseconds)" << endl;
-            cout << endl << "Czas pracy algorytmu " << algorithmTime_ms.count() / 1000.0 << " sekund. "<< endl;
+            cout << endl << "Czas pracy algorytmu " << algorithmTime_ms.count() / 1000.0 << " sekund. " << endl;
 
             delete[] graphlist;
             break;
@@ -132,7 +132,7 @@ int main()
             nie potrzebny duration_cast */
             std::chrono::duration<long, std::micro> int_usec = int_ms;
 
-            cout <<endl<< "Czas pracy algorytmu " << algorithmTime_ms.count()/1000.0 << " sekund. "<< endl;
+            cout << endl << "Czas pracy algorytmu " << algorithmTime_ms.count() / 1000.0 << " sekund. " << endl;
 
             //wyswietnie jednego ze 100 utworzonych nstancji grafu 
           // graphmatrix[0].printfGraph();
@@ -203,12 +203,13 @@ int main()
 
             break;
         }
+        case 5: {return 0; break; }
         default:
         {
             cout << "Nie ma takiej opcji w menu: " << endl;
         }
 
         }
-
+    
     return 0;
 }
