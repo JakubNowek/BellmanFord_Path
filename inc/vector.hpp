@@ -2,19 +2,18 @@
 #define vector_hpp
 #include <iostream>
 
-
+/**
+ * @brief klasa modelująca pojęcie wektora
+*/
 class vectorClass
 {
-    //arr jest wskaźnikiem liczbowym,
-    //który przechowuje adres naszego wektora
+    // wskaznik przechowujacy adres wektora
     int* array;
 
-    //zmienna capacity jest całkowitą
-    //pojemnością magazynową wektora
+    //pojemność wektora
     int capacity;
 
-    //zmienna current to liczba elementów
-    //obecnych obecnie w kontenerze
+    //liczba elementów obecnych obecnie w kontenerze
     int current;
 
     public:
@@ -25,10 +24,12 @@ class vectorClass
         capacity = 1; 
         current = 0; 
     }
+    //destruktor
     ~vectorClass()
     {
         delete [] array;
     }
+    //metody
     void push(int data);
     void push(int data, int index);
     int getData(int index);

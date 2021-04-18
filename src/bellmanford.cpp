@@ -1,10 +1,10 @@
 #include "bellmanford.hpp"
 
-void displayArrayFile(int distanceArray[],int preArray[], int size, int vertexSource)
+void SaveArrayFile(int distanceArray[],int preArray[], int size, int vertexSource)
 {
     std::fstream file; //zmienna do ktorej bedziemy zapisywac do pliku
     //otwieramy plik
-    file.open("sciezka.txt", std::ios::out|std::ios::trunc); //było std::ios::app zamiast trunc
+    file.open("droga.txt", std::ios::out|std::ios::trunc); //było std::ios::app zamiast trunc
     file << "Dla wierzcholka startowego: " << vertexSource << std::endl;
 	for(int i = 0; i < size; i++)
     {
@@ -29,43 +29,39 @@ void displayArrayFile(int distanceArray[],int preArray[], int size, int vertexSo
         }
         file << std::endl;
     }
-    //zamykamy plik
-    file.close(); 
-    // Usuwamy stos
-    delete[] arrayOfVertices;
+    file.close(); // zamykanie pliku
+
+    delete[] arrayOfVertices; //usunięcie pomocniczego stosu
 
 }
 
-//algorytm bellmana forda sluzacy do przeszukiwania dla 100 instancji dla list sasiedztwa
+//algorytm bellmana forda służący do przeszukiwania 100 list sasiedztwa
 void bellmanfordList(GraphList &graph, int vertexSource)
 {
-    // zmienna pomocnicza
-    listNode* tmpNode;
-    //liczba wierzcholkow
-    int totalVertices = graph.getV();
-    //liczba krawedzi
-    int totalEdges = graph.getE();
+    listNode* tmpNode;                  //węzeł pomocniczy
+    int totalVertices = graph.getV();   //liczba wierzchołków grafu
+    int totalEdges = graph.getE();      //liczba krawędzi grafu
 
-    //tablica dlugosci do wszystkich wierzcholkow od wierzcholka zrodlowego
+    //tablica przechowuje odległość od wierzchołka startowego do pozostałych wierzchołków
     int *distanceArray = new int[totalVertices];
 
     //tablica zapisujaca poprzedni uklad
     int *preArray = new int[totalVertices];
 
-    //wypelniamy tablice zgodnie z algorytmem
-    //wszystkie wierzcholki nieskonczonosc i zerujemy tablice pomocnicza
+    //wypelnianie tablicy wg algorytmu Bellmana-Forda
+    //wszystkim wierzchołkom przypissujemy wartość "nieskończoność" i zerujemy tablicę pomocniczą 
     for (int i = 0; i < totalVertices; i++)
     {
         distanceArray[i] = INFINITY;
         preArray[i] = 0;
     }
 
-    //wyznaczamy zrodlowy wierzcholek w tablicy
+    //wyznaczamy startowy wierzchołek
     distanceArray[vertexSource] = 0;
 
     //relaksacja krawedzi
     for(int i = 1; i <= totalVertices - 1; i++) // petla relaksacji
-        for(int j = 0; j < totalVertices; j++) //przejscie po wszystich wierzcholkach
+        for(int j = 0; j < totalVertices; j++) //przechodzenie kolejno po wierzchołkach
             for(tmpNode = graph.getListNode(j); tmpNode; tmpNode=tmpNode->nextNode)
             {
         	    if((distanceArray[tmpNode->vertexSource] != INFINITY) && (distanceArray[tmpNode->vertexDestination] > distanceArray[tmpNode->vertexSource] + tmpNode->weightNode))
@@ -75,8 +71,7 @@ void bellmanfordList(GraphList &graph, int vertexSource)
 			    }
             }
 		
-    //jeśli wartość się zmieni, wówczas mamy ujemny cykl na wykresie
-    //i nie możemy znaleźć najkrótszych odległości
+    // Wykrywanie cyklu ujemnego - nie można znaleźć najktótszych dróg
    for(int i = 0; i < totalVertices; i++)
         for(tmpNode = graph.getListNode(i); tmpNode; tmpNode=tmpNode->nextNode)
         {
@@ -87,42 +82,40 @@ void bellmanfordList(GraphList &graph, int vertexSource)
 		    }
 	    }
 
-    //usuniecie zaalokowanych pamieci
+    // usunięcie tablic pomocniczych
     delete [] distanceArray;
     delete [] preArray;
 
 }
 
-//algorytm bellmana forda sluzacy do zapisu do pliku dla listy sasiedztwa
+//funkcja działająca identycznie, jak bellmanfordList, zapisująca wyniki działania algorytmu do pliku
 void bellmanfordListFile(GraphList &graph, int vertexSource)
 {   
-    // zmienna pomocnicza
-    listNode* tmpNode;
-    //liczba wierzcholkow
-    int totalVertices = graph.getV();
-    //liczba krawedzi
-    int totalEdges = graph.getE();
 
-    //tablica dlugosci do wszystkich wierzcholkow od wierzcholka zrodlowego
-    int *distanceArray = new int[totalVertices];
+    listNode* tmpNode;                  //węzeł pomocniczy
+    int totalVertices = graph.getV();   //liczba wierzchołków grafu
+    int totalEdges = graph.getE();      //liczba krawędzi grafu
+
+    //tablica przechowuje odległość od wierzchołka startowego do pozostałych wierzchołków
+    int* distanceArray = new int[totalVertices];
 
     //tablica zapisujaca poprzedni uklad
-    int *preArray = new int[totalVertices];
+    int* preArray = new int[totalVertices];
 
-    //wypelniamy tablice zgodnie z algorytmem
-    //wszystkie wierzcholki nieskonczonosc i zerujemy tablice pomocnicza
+    //wypelnianie tablicy wg algorytmu Bellmana-Forda
+    //wszystkim wierzchołkom przypissujemy wartość "nieskończoność" i zerujemy tablicę pomocniczą 
     for (int i = 0; i < totalVertices; i++)
     {
         distanceArray[i] = INFINITY;
         preArray[i] = -1;
     }
 
-    //wyznaczamy zrodlowy wierzcholek w tablicy
+    //wyznaczamy startowy wierzchołek
     distanceArray[vertexSource] = 0;
 
     //relaksacja krawedzi
     for(int i = 1; i <= totalVertices - 1; i++) // petla relaksacji
-        for(int j = 0; j < totalVertices; j++) //przejscie po wszystich wierzcholkach
+        for(int j = 0; j < totalVertices; j++) //przechodzenie kolejno po wierzchołkach
             for(tmpNode = graph.getListNode(j); tmpNode; tmpNode=tmpNode->nextNode)
             {
         	    if((distanceArray[tmpNode->vertexSource] != INFINITY) && (distanceArray[tmpNode->vertexDestination] > distanceArray[tmpNode->vertexSource] + tmpNode->weightNode))
@@ -132,8 +125,7 @@ void bellmanfordListFile(GraphList &graph, int vertexSource)
 			    }
             }
 		   
-    //jeśli wartość się zmieni, wówczas mamy ujemny cykl na wykresie
-    //i nie możemy znaleźć najkrótszych odległości
+    // Wykrywanie cyklu ujemnego - nie można znaleźć najktótszych dróg
    for(int i = 0; i < totalVertices; i++)
         for(tmpNode = graph.getListNode(i); tmpNode; tmpNode=tmpNode->nextNode)
         {
@@ -145,37 +137,36 @@ void bellmanfordListFile(GraphList &graph, int vertexSource)
 	    }
 
     //zapisanie tablicy do pliku
-	displayArrayFile(distanceArray,preArray, totalVertices, vertexSource);
+	SaveArrayFile(distanceArray,preArray, totalVertices, vertexSource);
 
-    //usuniecie zaalokowanych pamieci
+    // usunięcie tablic pomocniczych
     delete [] distanceArray;
     delete [] preArray;
 
 }
 
-//algorytm bellmana forda dzialajacy dla 100 instancji macierzy sasiedztwa
+//algorytm bellmana forda służący do przeszukiwania 100 macierzy sasiedztwa
 void bellmanfordMatrix(GraphMatrix &graph, int vertexSource)
 {
-    //liczba wierzcholkow
-    int totalVertices = graph.getV();
-    //liczba krawedzi
-    int totalEdges = graph.getE();
 
-    //tablica dlugosci do wszystkich wierzcholkow od wierzcholka zrodlowego
-    int *distanceArray = new int[totalVertices];
+    int totalVertices = graph.getV();   //liczba wierzchołków grafu
+    int totalEdges = graph.getE();      //liczba krawędzi grafu
+
+    //tablica przechowuje odległość od wierzchołka startowego do pozostałych wierzchołków
+    int* distanceArray = new int[totalVertices];
 
     //tablica zapisujaca poprzedni uklad
-    int *preArray = new int[totalVertices];
+    int* preArray = new int[totalVertices];
 
-    //wypelniamy tablice zgodnie z algorytmem
-    //wszystkie wierzcholki nieskonczonosc i zerujemy tablice pomocnicza
+    //wypelnianie tablicy wg algorytmu Bellmana-Forda
+    //wszystkim wierzchołkom przypissujemy wartość "nieskończoność" i zerujemy tablicę pomocniczą 
     for (int i = 0; i < totalVertices; i++)
     {
         distanceArray[i] = INFINITY;
         preArray[i] = 0;
     }
 
-    //wyznaczamy zrodlowy wierzcholek w tablicy
+    //wyznaczamy startowy wierzchołek
     distanceArray[vertexSource] = 0; 
 
     //relaksacja krawedzi
@@ -191,8 +182,7 @@ void bellmanfordMatrix(GraphMatrix &graph, int vertexSource)
                     }
                 }
 
-    //jeśli wartość się zmieni, wówczas mamy ujemny cykl na wykresie
-    //i nie możemy znaleźć najkrótszych odległości
+    // Wykrywanie cyklu ujemnego - nie można znaleźć najktótszych dróg
    for(int i = 0; i < totalVertices; i++)
         for(int j = 0; j < totalVertices; j++)
             for(int k = 0; k < graph.getSizeMatrix(i,j); k++)
@@ -204,35 +194,33 @@ void bellmanfordMatrix(GraphMatrix &graph, int vertexSource)
 		        }
 	        }
 
-    //usuniecie zaalokowanych pamieci
+    // usunięcie tablic pomocniczych
     delete [] distanceArray;
     delete [] preArray;  
 
 }
 
-//algorytm bellmana forda zapisujacy do pliku dla macierzy sasiedztwa
+//funkcja działająca identycznie, jak bellmanfordMatrix, zapisująca wyniki działania algorytmu do pliku
 void bellmanfordMatrixFile(GraphMatrix &graph, int vertexSource)
 {
-    //liczba wierzcholkow
-    int totalVertices = graph.getV();
-    //liczba krawedzi
-    int totalEdges = graph.getE();
+    int totalVertices = graph.getV();   //liczba wierzchołków grafu
+    int totalEdges = graph.getE();      //liczba krawędzi grafu
 
-    //tablica dlugosci do wszystkich wierzcholkow od wierzcholka zrodlowego
-    int *distanceArray = new int[totalVertices];
+    //tablica przechowuje odległość od wierzchołka startowego do pozostałych wierzchołków
+    int* distanceArray = new int[totalVertices];
 
     //tablica zapisujaca poprzedni uklad
-    int *preArray = new int[totalVertices];
+    int* preArray = new int[totalVertices];
 
-    //wypelniamy tablice zgodnie z algorytmem
-    //wszystkie wierzcholki nieskonczonosc i zerujemy tablice pomocnicza
+    //wypelnianie tablicy wg algorytmu Bellmana-Forda
+    //wszystkim wierzchołkom przypissujemy wartość "nieskończoność" i zerujemy tablicę pomocniczą 
     for (int i = 0; i < totalVertices; i++)
     {
         distanceArray[i] = INFINITY;
         preArray[i] = -1;
     }
 
-    //wyznaczamy zrodlowy wierzcholek w tablicy
+    //wyznaczamy startowy wierzchołek
     distanceArray[vertexSource] = 0; 
 
     //relaksacja krawedzi
@@ -248,8 +236,7 @@ void bellmanfordMatrixFile(GraphMatrix &graph, int vertexSource)
                     }
                 }
 
-    //jeśli wartość się zmieni, wówczas mamy ujemny cykl na wykresie
-    //i nie możemy znaleźć najkrótszych odległości
+    // Wykrywanie cyklu ujemnego - nie można znaleźć najktótszych dróg
    for(int i = 0; i < totalVertices; i++)
         for(int j = 0; j < totalVertices; j++)
             for(int k = 0; k < graph.getSizeMatrix(i,j); k++)
@@ -262,9 +249,9 @@ void bellmanfordMatrixFile(GraphMatrix &graph, int vertexSource)
 	        }
 
     //zapisanie tablicy do pliku
-	displayArrayFile(distanceArray,preArray, totalVertices, vertexSource);
+	SaveArrayFile(distanceArray,preArray, totalVertices, vertexSource);
 
-    //usuniecie zaalokowanych pamieci
+    // usunięcie tablic pomocniczych
     delete [] distanceArray;
     delete [] preArray;      
 

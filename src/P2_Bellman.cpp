@@ -1,11 +1,4 @@
-﻿#include <chrono>
-#include <ratio>
-#include <fstream>
-#include <cstdlib>
-#include "graph_list.hpp"
-#include "graph_matrix.hpp"
-#include "bellmanford.hpp"
-#define SIZE 100
+﻿#include "P2_Bellman.h"
 
 /* udostępnienie nazw z przestrzeni std */
 using std::cout;
@@ -24,16 +17,15 @@ int main()
 
     cout << "Algorytm Bellmana-Forda - Badanie czasu: " << endl;
 
-    while (choice[0] != '0')  /*Poczatek pierwszego switcha*/
+    while (choice[0] != '0') 
     {
         cout << "\nJaki rodzaj grafu chcesz zbadac: " << endl;
-        cout << "1. Sto instancji grafu jako lista sasiedztwa " << endl;
-        cout << "2. Sto instancji grafu jako macierz sasiedztwa: " << endl;
+        cout << "1. 100 grafow jako listy sasiedztwa " << endl;
+        cout << "2. 100 grafow jako macierze sasiedztwa: " << endl;
         cout << "3. Wczytaj graf z pliku jako lista sasiedztwa: " << endl;
         cout << "4. Wczytaj graf z pliku jako macierz sasiedztwa: " << endl;
         cout << "0. Ewakuacja!!! " << endl << endl;
-        cout << "Twoj wybor to: ";
-        //cin >> choice_graph;
+        cout << "Twoj wybor : ";
         cin >> choice[0];
         cin.ignore(100000, '\n');
         switch (choice[0])
@@ -72,7 +64,7 @@ int main()
             //czas przed wyszukaniem najkrotszej drogi
             auto time_start = std::chrono::high_resolution_clock::now();
             for (int i = 0; i < SIZE; i++)
-                bellmanfordListFile(graphlist[i], 0);
+                bellmanfordList/*File*/(graphlist[i], 0);
             auto time_end = std::chrono::high_resolution_clock::now();
 
             /****---- zliczanie czasu ----****/
@@ -131,7 +123,7 @@ int main()
             //czas przed wyszukaniem najkrotszej drogi
             auto time_start = std::chrono::high_resolution_clock::now();
             for (int i = 0; i < SIZE; i++)
-                bellmanfordMatrixFile(graphmatrix[i], 0);
+                bellmanfordMatrix/*File*/(graphmatrix[i], 0);
             auto time_end = std::chrono::high_resolution_clock::now();
 
             /****---- zliczanie czasu ----****/
@@ -158,7 +150,7 @@ int main()
         case '3':
         {
             //otwieramy plik
-            file.open("dane.txt", std::ios::in);
+            file.open("data.txt", std::ios::in);
             //sprawdzamy czy plik istnieje
             if (file.good() == false)
             {
@@ -189,20 +181,19 @@ int main()
         }
         case '4':
         {
-            //otwieramy plik
-            file.open("dane.txt", std::ios::in);
+            //otwieranie pliku z którego będą wczytywane dane
+            file.open("data.txt", std::ios::in);
             //sprawdzamy czy plik istnieje
             if (file.good() == false)
             {
                 cout << "Plik nie istnieje :( ";
                 exit(0);
             }
-            //odczytujemy z pliku parametry plikow
+            //odczytywanie parametrów grafu : ilość krawędzi, ilość wierzchołków, gęstość 
             file >> edges;
             file >> vertices;
             file >> density;
-            //zamykamy plik
-            //tworzymy graf z podanymi parametrami
+            //tworzenie grafu z podanymi parametrami i danymi wczytanymi z kolejnych linijek pliku
             GraphMatrix graph(vertices, edges, density);
             for (int i = 0; i < graph.getE(); i++)
             {
@@ -211,9 +202,8 @@ int main()
                 file >> weight;
                 graph.addEdge(vertexSource, vertexDestination, weight);
             }
-            //zamykamy plik
-            file.close();
-            graph.printfGraph();
+            file.close(); //zamykanie pliku
+            graph.printfGraph(); // wypisywanie połączeń grafu
             bellmanfordMatrixFile(graph, 0);
             choice[0] = ' ';
             break;

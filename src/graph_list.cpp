@@ -80,8 +80,8 @@ void GraphList::printfGraph()
 
 void GraphList::cleanMemory()
 {
-    listNode* newNode; //zmienna potrzebna do obslugi
-    listNode* tmpNode; //zmienna potrzebna do obslugi
+    listNode* newNode; //zmienna pomocnicza 1
+    listNode* tmpNode; //zmienna pomonicza 2
     for(int i = 0; i < this->verticesGraph; i++)
     {
         tmpNode = adjacencyList [ i ];

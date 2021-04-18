@@ -2,9 +2,9 @@
 
 void vectorClass::push(int data)
 {
-    //jeśli liczba elementów jest równa pojemności,
-    //oznacza to, że nie mamy miejsca na umieszczenie większej liczby elementów
-    //Musimy podwoić przepustowość
+
+    // jeżeli ilość elementów jest równa pojemności wektora,
+    // musimy podwoić ilosc rezerwowanego miejsca
     if (current == capacity)
     { 
         int* temp = new int[2 * capacity]; 
@@ -18,7 +18,7 @@ void vectorClass::push(int data)
         capacity *= 2; 
         array = temp; 
     } 
-    // dodawanie danej 
+    // dodawanie nowej danej 
     array[current] = data; 
     current++;  
 }
@@ -43,37 +43,36 @@ int vectorClass::getData(int index)
         return array[index];
     else
     {
-        std::cout <<"Indeks wykracza poza zakres kontenera!!!";
+        std::cout <<"Wykroczono poza zakres kontenera!!!";
         return 0;
     }    
 } 
   
-// funkcja usuwajaca ostatni element 
+// funkcja usuwa ostatni element wektora
 void vectorClass::pop() 
 { 
     array[current] = NULL;
     current--; 
 }
   
-// funkcja zwracajaca rozmiar kontenera 
+// funkcja zwraca rozmiar wektora 
 int vectorClass::size() 
 { 
     return current; 
 } 
   
-// funkcja zwracajaca pojemnosc kontenera czyli ile mamy zarezwerowwowane w pamieci 
+// funkcja zwraca pojemnosc wektora (ile miejsca zajmuje w pamieci) 
 int vectorClass::getcapacity() 
 { 
     return capacity; 
 } 
   
-// funkcja wypisujaca zawartosc kontenera 
+// funkcja wypisuje zawartosc wektora 
 void vectorClass::print() 
 { 
     for (int i = 0; i < current; i++)
     {
         std::cout << " (" << array[i] << ")";
     }
-
     /*std::cout << std::endl;  */    
 } 

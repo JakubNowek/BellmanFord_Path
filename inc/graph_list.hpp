@@ -5,57 +5,61 @@
 #include <iomanip>
 #include <ctime>
 
-//struktura opisujaca wezel laczacy wierzcholki
+/**
+ * @brief struktura, opisuj¹ca wêze³ ³¹cz¹cy dwa wierzcho³ki
+*/
 struct listNode   
 {
-    int vertexSource; //wierzcholek poczatkowy
-    int vertexDestination; // wierzcholek koncowy
-    int weightNode; // waga wezla
-    listNode* nextNode;
+    int vertexSource;       //wierzcho³ek pocz¹tkowy
+    int vertexDestination;  //wierzcho³ek koñcowy
+    int weightNode;         //waga wêz³a
+    listNode* nextNode;     //wskaŸnik na nastêpny wêze³ 
 };
 
-
+/**
+ * @brief struktura modeluj¹ca poêcie grafu w postaci listy s¹siedztwa
+*/
 class GraphList:public Graph
 {
     listNode **adjacencyList;
 
     public:
-    GraphList(int vertices,double density):Graph(vertices,density)
+    GraphList(int vertices,double density):Graph(vertices,density) //konstruktor inicjuj¹cy listê, gdy obliczamy iloœæ krawêdzi z gêstoœci
     {
-        //tworzymy tablice listy sasiedztwa
+        //tworzenie tablicy listy sasiedztwa
         this->adjacencyList = new listNode* [vertices];
 
-        //tablice wypelniamy pustymi miejscami
+        //wype³nianie tablicy pustymi miejscami
         for(int i = 0; i < vertices; i++)
             this->adjacencyList[i] = NULL;
     }
     GraphList(int vertices,int edges,double density):Graph(vertices,edges,density)
     {
-        //tworzymy tablice listy sasiedztwa
+        //tworzenie tablicy listy sasiedztwa
         this->adjacencyList = new listNode* [vertices];
 
-        //tablice wypelniamy pustymi miejscami
+        //wype³nianie tablicy pustymi miejscami
         for(int i = 0; i < vertices; i++)
             this->adjacencyList[i] = NULL;
     }
-    GraphList(){}; //konstruktor
+    GraphList(){}; //konstruktor domyœlny
     ~GraphList(); //destruktor
 
     void setAdjacencyList(int vertices)
     {
-        //tworzymy tablice listy sasiedztwa
+        //tworzenie tablicy listy sasiedztwa
         this->adjacencyList = new listNode* [vertices];
 
-        //tablice wypelniamy pustymi miejscami
+        //wype³nianie tablicy pustymi miejscami
         for(int i = 0; i < vertices; i++)
             this->adjacencyList[i] = NULL;
     }
-    struct listNode* getListNode(int index){return this->adjacencyList[index];}
-    struct listNode* createNode(int vertexSource, int vertexDestination, int weight);
+    struct listNode* getListNode(int index){return this->adjacencyList[index];} //metoda zwracaj¹ca element listy o danym indeksie
+    struct listNode* createNode(int vertexSource, int vertexDestination, int weight); // metoda s³u¿¹ca tworzeniu wêz³ów
     void addEdge(int vertexSource, int vertexDestination, int weight);
-    void fillGraph(); 
-	void printfGraph();
-    void cleanMemory();
+    void fillGraph(); // metoda wype³niaj¹ca graf
+	void printfGraph(); // metoda wypisuj¹ca zawartoœæ grafu
+    void cleanMemory(); // metoda opró¿niaj¹ca graf
 };
 
 #endif
