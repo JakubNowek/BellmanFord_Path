@@ -18,28 +18,35 @@ int main()
     int vertices;
     int edges;
     int vertexSource, vertexDestination, weight;
-    int choice_graph = 0;
+    //int choice_graph = 0;
+    char choice[2] = " "; //tablica znakow zapisujaca wybor uzytkownika poziom 1
     std::fstream file; //zmienna plikowa potrzebna do wczytywania danych z pliku
+
     cout << "Algorytm Bellmana-Forda - Badanie czasu: " << endl;
-    cout << "Jaki rodzaj grafu chcesz zbadac: " << endl;
-    cout << "1. Sto instancji grafu jako lista sasiedztwa " << endl;
-    cout << "2. Sto instancji grafu jako macierz sasiedztwa: " << endl;
-    cout << "3. Wczytaj graf z pliku jako lista sasiedztwa: " << endl;
-    cout << "4. Wczytaj graf z pliku jako macierz sasiedztwa: " << endl;
-    cout << "5. Ewakuacja!!! " << endl << endl;
-    cout << "Twoj wybor to: ";
-    cin >> choice_graph;
-    cin.ignore(100000, '\n');
-        switch (choice_graph)
+
+    while (choice[0] != '0')  /*Poczatek pierwszego switcha*/
+    {
+        cout << "\nJaki rodzaj grafu chcesz zbadac: " << endl;
+        cout << "1. Sto instancji grafu jako lista sasiedztwa " << endl;
+        cout << "2. Sto instancji grafu jako macierz sasiedztwa: " << endl;
+        cout << "3. Wczytaj graf z pliku jako lista sasiedztwa: " << endl;
+        cout << "4. Wczytaj graf z pliku jako macierz sasiedztwa: " << endl;
+        cout << "0. Ewakuacja!!! " << endl << endl;
+        cout << "Twoj wybor to: ";
+        //cin >> choice_graph;
+        cin >> choice[0];
+        cin.ignore(100000, '\n');
+        switch (choice[0])
         {
-        case 1:
+        case '1':
         {
             //pobieramy parametry grafu
             cout << "Podaj ilosc wierzcholkow grafu: ";
             cin >> vertices;
             cin.ignore(100000, '\n');
-            cout << "Podaj gestosc grafu: ";
+            cout << "Podaj gestosc grafu w zakresie ( 0,100% ] : ";
             cin >> density;
+            density = density / 100.0;
             cin.ignore(100000, '\n');
 
             //dynamiczna tablica grafow
@@ -68,32 +75,37 @@ int main()
                 bellmanfordListFile(graphlist[i], 0);
             auto time_end = std::chrono::high_resolution_clock::now();
 
+            /****---- zliczanie czasu ----****/
+
             /*czas trwania zmiennoprzecinkowego*/
             std::chrono::duration<double, std::milli> algorithmTime_ms = time_end - time_start;
-
             // integralny czas trwania: wymaga czasu duration_cast
             auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
-
             /* zamiana calkowitego czasu na mniejsza jednostke
             nie potrzebny duration_cast */
             std::chrono::duration<long, std::micro> int_usec = int_ms;
+
+            /****---- koniec zliczania czasu ----****/
 
             //cout << "algorithm took " << algorithmTime_ms.count() << " ms, "
             //    << "or " << int_ms.count() << " whole milliseconds "
             //    << "(which is " << int_usec.count() << " whole microseconds)" << endl;
             cout << endl << "Czas pracy algorytmu " << algorithmTime_ms.count() / 1000.0 << " sekund. " << endl;
+            cout << "Średni czas analizy jednego grafu " << algorithmTime_ms.count() / 100000.0 << " sekund. " << endl;
 
             delete[] graphlist;
+            choice[0] = ' ';
             break;
         }
-        case 2:
+        case '2':
         {
             //pobieramy parametry grafu
             cout << "Podaj ilosc wierzcholkow grafie: ";
             cin >> vertices;
             cin.ignore(100000, '\n');
-            cout << "Podaj gestosc grafu w zakresie ( 0 ; 1] : ";
+            cout << "Podaj gestosc grafu w zakresie ( 0,100% ] : ";
             cin >> density;
+            density = density / 100.0;
             cin.ignore(100000, '\n');
 
             //dynamiczna tablica grafow
@@ -119,29 +131,31 @@ int main()
             //czas przed wyszukaniem najkrotszej drogi
             auto time_start = std::chrono::high_resolution_clock::now();
             for (int i = 0; i < SIZE; i++)
-                bellmanfordMatrixFile(graphmatrix[0], 0);
+                bellmanfordMatrixFile(graphmatrix[i], 0);
             auto time_end = std::chrono::high_resolution_clock::now();
+
+            /****---- zliczanie czasu ----****/
 
             /*czas trwania zmiennoprzecinkowego*/
             std::chrono::duration<double, std::milli> algorithmTime_ms = time_end - time_start;
-
             // integralny czas trwania: wymaga czasu duration_cast
             auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
-
             /* zamiana calkowiego czasu na mniejsza jednostke
             nie potrzebny duration_cast */
             std::chrono::duration<long, std::micro> int_usec = int_ms;
 
-            cout << endl << "Czas pracy algorytmu " << algorithmTime_ms.count() / 1000.0 << " sekund. " << endl;
+            /****---- koniec zliczania czasu ----****/
 
+            cout << endl << "Czas pracy algorytmu " << algorithmTime_ms.count() / 1000.0 << " sekund. " << endl;
+            cout << "Średni czas analizy jednego grafu " << algorithmTime_ms.count() / 100000.0 << " sekund. " << endl;
             //wyswietnie jednego ze 100 utworzonych nstancji grafu 
-          // graphmatrix[0].printfGraph();
+            // graphmatrix[0].printfGraph();
 
             delete[] graphmatrix;
-
+            choice[0] = ' ';
             break;
         }
-        case 3:
+        case '3':
         {
             //otwieramy plik
             file.open("dane.txt", std::ios::in);
@@ -170,9 +184,10 @@ int main()
             file.close();
             graph.printfGraph();
             bellmanfordListFile(graph, 0);
+            choice[0] = ' ';
             break;
         }
-        case 4:
+        case '4':
         {
             //otwieramy plik
             file.open("dane.txt", std::ios::in);
@@ -200,16 +215,17 @@ int main()
             file.close();
             graph.printfGraph();
             bellmanfordMatrixFile(graph, 0);
-
+            choice[0] = ' ';
             break;
         }
-        case 5: {return 0; break; }
+        case '0': {choice[0] = ' '; return 0; break; }
         default:
         {
             cout << "Nie ma takiej opcji w menu: " << endl;
+            choice[0] = ' ';
         }
 
         }
-    
+    }
     return 0;
 }
