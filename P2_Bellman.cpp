@@ -91,7 +91,7 @@ int main()
             //    << "or " << int_ms.count() << " whole milliseconds "
             //    << "(which is " << int_usec.count() << " whole microseconds)" << endl;
             cout << endl << "Czas pracy algorytmu " << algorithmTime_ms.count() / 1000.0 << " sekund. " << endl;
-            cout << "Średni czas analizy jednego grafu " << algorithmTime_ms.count() / 100000.0 << " sekund. " << endl;
+            cout << "Sredni czas analizy jednego grafu " << algorithmTime_ms.count() / 1000.0/SIZE << " sekund. " << endl;
 
             delete[] graphlist;
             choice[0] = ' ';
@@ -147,7 +147,7 @@ int main()
             /****---- koniec zliczania czasu ----****/
 
             cout << endl << "Czas pracy algorytmu " << algorithmTime_ms.count() / 1000.0 << " sekund. " << endl;
-            cout << "Średni czas analizy jednego grafu " << algorithmTime_ms.count() / 100000.0 << " sekund. " << endl;
+            cout << "Sredni czas analizy jednego grafu " << algorithmTime_ms.count() / 1000.0/SIZE << " sekund. " << endl;
             //wyswietnie jednego ze 100 utworzonych nstancji grafu 
             // graphmatrix[0].printfGraph();
 
