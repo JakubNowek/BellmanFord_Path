@@ -92,7 +92,7 @@ int main()
             cout << "Podaj ilosc wierzcholkow grafie: ";
             cin >> vertices;
             cin.ignore(100000, '\n');
-            cout << "Podaj gestosc grafu: ";
+            cout << "Podaj gestosc grafu w zakresie ( 0 ; 1] : ";
             cin >> density;
             cin.ignore(100000, '\n');
 
@@ -119,7 +119,7 @@ int main()
             //czas przed wyszukaniem najkrotszej drogi
             auto time_start = std::chrono::high_resolution_clock::now();
             for (int i = 0; i < SIZE; i++)
-                bellmanfordMatrixFile(graphmatrix[i], 0);
+                bellmanfordMatrixFile(graphmatrix[0], 0);
             auto time_end = std::chrono::high_resolution_clock::now();
 
             /*czas trwania zmiennoprzecinkowego*/
