@@ -1,0 +1,1 @@
+bez zapisu do pliku dzia³a szybciej
